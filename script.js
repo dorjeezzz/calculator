@@ -30,3 +30,13 @@ function operate(num1, operator, num2){
     else divide(num1,num2);
 }
 
+const sel = "grey";
+const col = "black";
+
+const buttons = document.querySelectorAll(".button");
+buttons.forEach((button)=>{
+    button.addEventListener("click", (e) =>{
+        button.style.backgroundColor = sel;
+        //button.style.backgroundColor = col;
+    });
+});

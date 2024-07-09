@@ -3,11 +3,35 @@ body{
     align-content: center;
     justify-content: center;
 }
+
 button{
     padding: 10px;
+    height: 50px;
     /* width: 30px; */
-    /* background-color: black; */
+    width: 50px;
     color: lightgray;
+    border: 2px solid rgb(0, 0, 0);
+    background-color: rgb(90, 84, 84);
+    border-radius: 10px;
+}
+
+.row0{
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: end;
+}
+
+#clear{
+    width: 50px;
+    padding: 10px;
+}
+
+#delete{
+    width: 50px;
+    padding: 10px
 }
 
 .container{
@@ -16,11 +40,13 @@ button{
     width: 350px;
     flex-direction: column;
     align-items: center;
-    /* justify-content: center; */
+    /* justify-content: space-between; */
+    justify-content: center;
     border: 1px solid rgb(0, 0, 0);
     padding: 10px;
-    border-radius: 7px;
-    /* background-color: black; */
+    border-radius: 10px;
+    background-color: black;
+    padding: 10px;
 }
 
 .r{
@@ -29,22 +55,25 @@ button{
 }
 
 .row0{
-    /* width: 100%; */
-    background-color: blue;
+    width: 100%;
+    /* background-color: blue; */
     display: flex;
     justify-content: center;
 }
 
 .view{
-    height: 27px;
-    text-align: right;
+    height: 100%;
+    width: 100%;
+    text-align: center;
     color: grey;
+    /* background-color: lightsalmon; */
 }
 
 .nums{
+    /* background-color: red; */
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
 }
