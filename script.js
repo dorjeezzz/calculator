@@ -36,7 +36,7 @@ const col = "black";
 const buttons = document.querySelectorAll(".button");
 buttons.forEach((button)=>{
     button.addEventListener("click", (e) =>{
-        button.style.backgroundColor = sel;
+        button.classList.toggle("clicked");
         //button.style.backgroundColor = col;
     });
 });
