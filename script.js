@@ -35,8 +35,10 @@ const col = "black";
 
 const buttons = document.querySelectorAll(".button");
 buttons.forEach((button)=>{
-    button.addEventListener("click", (e) =>{
-        button.classList.toggle("clicked");
-        //button.style.backgroundColor = col;
+    button.addEventListener("mousedown", (e) =>{
+        button.classList.add("clicked");
     });
+    button.addEventListener("mouseup", ()=>{
+        button.classList.remove("clicked");
+    })
 });
