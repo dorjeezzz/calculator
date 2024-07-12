@@ -41,17 +41,46 @@ let count = 0;
 let operation = false;
 buttons.forEach((button)=>{
     let val = button.textContent;
-    //if (val == clear) display.textContent = 0;
     button.addEventListener("mousedown", (e) =>{
         button.classList.add("clicked");
         let curr = Number(val);
         console.log(curr);
-        if (Number.isInteger(curr)) {
-            display.textContent = curr;
+        //address overflowing
+        if (Number.isInteger(curr) && display.textContent == 0){
+            display.textContent = val;
+        }
+        else if (Number.isInteger(curr)) {
+            display.textContent += val;
             count++;
         }
     });
     button.addEventListener("mouseup", ()=>{
         button.classList.remove("clicked");
     });
+});
+
+const del = document.querySelector("#delete");
+const clear = document.querySelector("#clear");
+
+clear.addEventListener("mousedown", (e) =>{
+    clear.style.backgroundColor = "black";
+    display.textContent = 0;
+});
+
+clear.addEventListener("mouseup", (e)=>{
+    clear.style.backgroundColor = '#191d1d';
+});
+
+del.addEventListener("mousedown", ()=>{
+    del.style.backgroundColor = "purple";
+    if (display.textContent.length > 1){
+        display.textContent = display.textContent.substr(0, display.textContent.length-1);
+    }
+    else if (display.textContent.length == 1){
+        display.textContent = 0;
+    }
+});
+
+del.addEventListener("mouseup", ()=>{
+    del.style.backgroundColor = '#191D1D';
 });

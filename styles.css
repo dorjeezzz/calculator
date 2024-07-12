@@ -3,6 +3,7 @@ body{
     align-content: center;
     justify-content: center;
     background-color: black;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .container{
@@ -45,13 +46,27 @@ body{
 }
 
 #clear{
-    width: 100%;
+    height: 50px;
     padding: 10px;
+    width: 100%;
+    margin: 3px;
+    font-size: 24px;
+    background-color: rgb(25, 29, 29);
+    color: white;
+    border-radius: 8px;
+    border: 1px solid black;
 }
 
 #delete{
     width: 100%;
-    padding: 10px
+    padding: 10px;
+    height: 50px;
+    margin: 3px;
+    background-color: rgb(25, 29, 29);
+    border-radius: 8px;
+    border: 1px solid black;
+    color: white;
+    font-size: 24px;
 }
 
 .r{
