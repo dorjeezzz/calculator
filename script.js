@@ -37,21 +37,35 @@ const buttons = document.querySelectorAll(".button");
 //everytime click button put value on display then store it somewhere so you can use operation func on it, count number of buttons pressed
 //needs to == 3 in order to call operation function, if alr number on view count -= 2;
 const display = document.querySelector("#display");
-let count = 0;
 let operation = false;
 buttons.forEach((button)=>{
     let val = button.textContent;
     button.addEventListener("mousedown", (e) =>{
         button.classList.add("clicked");
         let curr = Number(val);
-        console.log(curr);
         //address overflowing
         if (Number.isInteger(curr) && display.textContent == 0){
             display.textContent = val;
         }
         else if (Number.isInteger(curr)) {
             display.textContent += val;
-            count++;
+        }
+        else if (val == '*'){
+            //console.log("PONG KRELL");
+            //call operator function
+            //console.log(display.textContent);
+            let n = Number(display.textContent);
+            console.log(n);
+            console.log(multiply(n, 2));
+        }
+        else if (val == '/'){
+            console.log("Divide");
+        }
+        else if (val == '+'){
+            console.log("add");
+        }
+        else{
+            console.log("Sup");
         }
     });
     button.addEventListener("mouseup", ()=>{
