@@ -28,7 +28,7 @@ function operate(num1, operator, num2){
     else if (operator == "*"){
         return multiply(num1,num2);
     }
-    else if (operate == "/") return divide(num1,num2);
+    else if (operator == "/") return divide(num1,num2);
     else return null;
 }
 
@@ -42,7 +42,7 @@ const display = document.querySelector("#display");
 let a = 0;
 let b;
 let ops;
-let pressed = false;
+let clicks = 0;
 let twonums = false;
 let it = 0;
 buttons.forEach((button)=>{
@@ -50,8 +50,17 @@ buttons.forEach((button)=>{
     button.addEventListener("mousedown", (e) =>{
         button.classList.add("clicked");
         let curr = Number(val);
+        if (val == "clear"){
+            console.log("I'm FUCKING PISSED");
+            display.textContent = 0;
+            a = 0;
+            b = 0;
+            ops = "";
+            clicks = 0;
+            it = 0;
+        }
         //address overflowing
-        if (!pressed){
+        if (clicks == 0){
             //if (display.textContent.length() <= 16)
             if (isNum(curr) && display.textContent == 0){
                 display.textContent = val;
@@ -61,36 +70,33 @@ buttons.forEach((button)=>{
             }
             else if (val == '*'){
                 let n = Number(display.textContent);
-                ops = val;
+                ops = '*';
                 a = n;
-                console.log(`a = ${a}`);
-                console.log(ops);
-                pressed = true;
+                // console.log(`a = ${a}`);
+                // console.log(ops);
+                clicks++;
             }
             else if (val == '/'){
                 let n = Number(display.textContent);
-                ops = val;
+                ops = '/';
                 a = n;
-                console.log(`a = ${a}`);
-                console.log(`b = ${b}`);
                 //else pressed = false;
-                console.log(operate(a,ops,b));
-                pressed = true;
+                clicks++;
             }
             else if (val == '+'){
                 let n = Number(display.textContent);
                 ops = '+';
                 a = n;
-                pressed = true;
+                clicks++;
             }
             else if (val == '-'){
                 let n = Number(display.textContent);
                 ops = '-';
                 a = n;
-                pressed = true;
+                clicks++;
             }
         }
-        else if (pressed){
+        else if (clicks == 1){
             if (it == 0 && isNum(curr)){
                 display.textContent = val;
                 it++;
@@ -98,37 +104,77 @@ buttons.forEach((button)=>{
             else if (it == 1 && isNum(curr)) display.textContent += val;
             else if (val == '*'){
                 let n = Number(display.textContent);
-                b = n;
-                console.log(`operate ${a} ${ops} ${b}`);
-                display.textContent = operate(a,ops,b);
-                ops = '*';
-                b = 0;
-                a = Number(display.textContent);
-                it = 0;
+                if (ops == "") ops = '*';
+                else if (ops != "" && ops != '*'){
+                    b = n;
+                    display.textContent = operate(a,ops,b);
+                    ops = '*';
+                    a = Number(display.textContent);
+                    b = 0;
+                    it = 0;
+                }
+                else if (ops != "" && it > 0){
+                    b = n;
+                    //console.log(`operate ${a} ${ops} ${b}`);
+                    display.textContent = operate(a,'*',b);
+                    b = 0;
+                    a = Number(display.textContent);
+                    it = 0;
+                }
             }
-            else if (val == '+'){
+            else if (val == '+'){ //need to set that eqn only fires when it = 1
                 let n = Number(display.textContent);
-                b = n;
-                console.log(`operate ${a} ${ops} ${b}`);
-                b = 0;
-                a = Number(display.textContent);
-                it = 0;
-                ops = '+';
+                if (ops == "") ops = '+';
+                else if (ops != "" && ops != '+'){
+                    b = n;
+                    display.textContent = operate(a, ops, b);
+                    ops = '+';
+                    b = 0;
+                    a = Number(display.textContent);
+                    it = 0;
+                }
+                else if (ops!= "" && it > 0){
+                    b = n;
+                    //console.log(`operate ${a} ${ops} ${b}`);
+                    display.textContent = operate(a,ops,b);
+                    b = 0;
+                    a = Number(display.textContent);
+                    it = 0;
+                }
             }
-            else if (val == '=' && a && ops){
+            else if (val == '-'){
                 let n = Number(display.textContent);
-                b = n;
-                console.log(`operate ${a} ${ops} ${b}`);
-                display.textContent = operate(a,ops,b);
-                b = 0;
-                a = Number(display.textContent);
-                it = 0;
-                ops = "";
+                if (ops == "") ops = '-';
+                else if (ops != "" && ops != '-'){
+                    b = n;
+                    display.textContent = operate(a,ops,b);
+                    b = 0;
+                    a = Number(display.textContent);
+                    ops = '-';
+                    it = 0;
+                }
+                else if (ops != "" && it > 0){
+                    b = n;
+                    display.textContent = operate(a,ops,b);
+                    b = 0;
+                    a = Number(display.textContent);
+                    it = 0;
+                }
             }
             else if (val == '='){
-                display.textContent = a;
+                let n = Number(display.textContent);
+                if (ops != "" && it > 0){
+                    b = n;
+                    display.textContent = operate(a,ops,b);
+                    console.log(`operate ${a} ${ops} ${b}`);
+                    ops = "";
+                    a = Number(display.textContent);
+                    b = 0;
+                }
+                it = 0;
             }
         }
+        //case for clicks == 2
     });
     button.addEventListener("mouseup", ()=>{
         button.classList.remove("clicked");
@@ -141,15 +187,11 @@ const clear = document.querySelector("#clear");
 clear.addEventListener("mousedown", (e) =>{
     clear.style.backgroundColor = "black";
     display.textContent = 0;
-    a = 0;
-    b = 0;
-    ops = "";
-    pressed = false;
 });
 
 clear.addEventListener("mouseup", (e)=>{
     clear.style.backgroundColor = '#191d1d';
-    pressed = false;
+    clicks = 0;
 });
 
 del.addEventListener("mousedown", ()=>{
