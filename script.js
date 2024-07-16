@@ -36,8 +36,6 @@ function operate(num1, operator, num2){
     return null;
 }
 
-console.log(operate(5,'/',0));
-
 const buttons = document.querySelectorAll(".button");
 //everytime click button put value on display then store it somewhere so you can use operation func on it, count number of buttons pressed
 //needs to == 3 in order to call operation function, if alr number on view count -= 2;
@@ -72,9 +70,8 @@ buttons.forEach((button)=>{
             else if (display.textContent.length == 1){
                 display.textContent = 0;
             }
-            a = Number(display.textContent);
-            console.log(a)
-            console.log(b);
+            if (it == 0) a = Number(display.textContent);
+            else b = Number(display.textContent);
         }
         if (clicks == 0){
             if (isNum(curr) && (display.textContent == 0 || display.textContent == "NaN")){
@@ -134,8 +131,6 @@ buttons.forEach((button)=>{
                 console.log(ops);
                 if (ops != '*') ops = '*';
                 else if (ops != "" && ops != '*'){
-                    // console.log("bug");
-                    // console.log(a);
                     b = n;
                     display.textContent = operate(a,ops,b);
                     ops = '*';
@@ -171,9 +166,9 @@ buttons.forEach((button)=>{
                 }
             }
             else if (val == '-' && !zerdiv){
-                console.log("minus");
-                console.log(a);
-                console.log(b);
+                // console.log("minus");
+                // console.log(a);
+                // console.log(b);
                 let n = Number(display.textContent);
                 if (ops != '-') ops = '-';
                 else if (ops != "" && ops != '-'){
