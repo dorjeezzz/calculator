@@ -57,13 +57,24 @@ buttons.forEach((button)=>{
             it = 0;
             decimal = false;
         }
+        if (val == "delete"){
+            if (display.textContent.length > 1){
+                display.textContent = display.textContent.substr(0, display.textContent.length-1);
+            }
+            else if (display.textContent.length == 1){
+                display.textContent = 0;
+            }
+            a = Number(display.textContent);
+            console.log(a)
+            console.log(b);
+        }
         //address overflowing
         if (clicks == 0){
             //if (display.textContent.length() <= 16)
             if (isNum(curr) && display.textContent == 0){
                 display.textContent = val;
             }
-            else if (isNum(curr)) {
+            else if (isNum(curr) && display.textContent.length <= 17) {
                 display.textContent += val;
             }
             else if (val == '.' && !decimal){
@@ -75,32 +86,41 @@ buttons.forEach((button)=>{
                 ops = '*';
                 a = n;
                 clicks++;
+                decimal = false;
             }
             else if (val == '/'){
                 let n = Number(display.textContent);
                 ops = '/';
                 a = n;
                 clicks++;
+                decimal = false;
             }
             else if (val == '+'){
                 let n = Number(display.textContent);
                 ops = '+';
                 a = n;
                 clicks++;
+                decimal = false;
             }
             else if (val == '-'){
                 let n = Number(display.textContent);
                 ops = '-';
                 a = n;
                 clicks++;
+                decimal = false;
             }
         }
         else if (clicks == 1){
             if (it == 0 && isNum(curr)){
                 display.textContent = val;
                 it++;
+                decimal = false;
             }
-            else if (it == 1 && isNum(curr)) display.textContent += val;
+            else if (it == 1 && isNum(curr) && display.textContent.length <= 17) display.textContent += val;
+            else if (!decimal && val == '.'){
+                display.textContent += '.';
+                decimal = true;
+            }
             else if (val == '*'){
                 let n = Number(display.textContent);
                 if (ops == "") ops = '*';
@@ -158,6 +178,7 @@ buttons.forEach((button)=>{
                     b = 0;
                     a = Number(display.textContent);
                     it = 0;
+                    console.log("when");
                 }
             }
             else if (val == '/'){
@@ -214,12 +235,6 @@ clear.addEventListener("mouseup", (e)=>{
 
 del.addEventListener("mousedown", ()=>{
     del.style.backgroundColor = "purple";
-    if (display.textContent.length > 1){
-        display.textContent = display.textContent.substr(0, display.textContent.length-1);
-    }
-    else if (display.textContent.length == 1){
-        display.textContent = 0;
-    }
 });
 
 del.addEventListener("mouseup", ()=>{
