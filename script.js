@@ -129,9 +129,13 @@ buttons.forEach((button)=>{
                 decimal = true;
             }
             else if (val == '*' && !zerdiv){
+                //console.log("times");
                 let n = Number(display.textContent);
-                if (ops == "") ops = '*';
+                console.log(ops);
+                if (ops != '*') ops = '*';
                 else if (ops != "" && ops != '*'){
+                    // console.log("bug");
+                    // console.log(a);
                     b = n;
                     display.textContent = operate(a,ops,b);
                     ops = '*';
@@ -149,7 +153,7 @@ buttons.forEach((button)=>{
             }
             else if (val == '+' && !zerdiv){ //need to set that eqn only fires when it = 1
                 let n = Number(display.textContent);
-                if (ops == "") ops = '+';
+                if (ops != '+') ops = '+';
                 else if (ops != "" && ops != '+'){
                     b = n;
                     display.textContent = operate(a, ops, b);
@@ -167,8 +171,11 @@ buttons.forEach((button)=>{
                 }
             }
             else if (val == '-' && !zerdiv){
+                console.log("minus");
+                console.log(a);
+                console.log(b);
                 let n = Number(display.textContent);
-                if (ops == "") ops = '-';
+                if (ops != '-') ops = '-';
                 else if (ops != "" && ops != '-'){
                     b = n;
                     display.textContent = operate(a,ops,b);
@@ -187,7 +194,7 @@ buttons.forEach((button)=>{
             }
             else if (val == '/' && !zerdiv){
                 let n = Number(display.textContent);
-                if (ops == "") ops = '/';
+                if (ops != '/') ops = '/';
                 else if (ops != "" && ops != '/'){
                     b = n;
                     display.textContent = operate(a,ops,b);
