@@ -15,7 +15,8 @@ function isNum(value){
 }
 
 function divide(x,y){
-    return x/y;
+    if (y != 0) return x/y;
+    else return "Error: Division by Zero";
 }
 
 function operate(num1, operator, num2){
@@ -28,9 +29,14 @@ function operate(num1, operator, num2){
     else if (operator == "*"){
         return multiply(num1,num2);
     }
-    else if (operator == "/") return divide(num1,num2);
-    else return null;
+    else if (operator == "/") {
+        if (num2 == 0) return "NaN";
+        return divide(num1,num2);
+    }
+    return null;
 }
+
+console.log(operate(5,'/',0));
 
 const buttons = document.querySelectorAll(".button");
 //everytime click button put value on display then store it somewhere so you can use operation func on it, count number of buttons pressed
@@ -42,13 +48,13 @@ let ops;
 let clicks = 0;
 let it = 0;
 let decimal = false;
+let zerdiv = false;
 buttons.forEach((button)=>{
     let val = button.textContent;
     button.addEventListener("mousedown", (e) =>{
         button.classList.add("clicked");
         let curr = Number(val);
         if (val == "clear"){
-            // console.log("I'm FUCKING PISSED");
             display.textContent = 0;
             a = 0;
             b = 0;
@@ -56,8 +62,10 @@ buttons.forEach((button)=>{
             clicks = 0;
             it = 0;
             decimal = false;
+            console.clear();
         }
         if (val == "delete"){
+            if (display.textContent == "NaN") display.textContent = 0;
             if (display.textContent.length > 1){
                 display.textContent = display.textContent.substr(0, display.textContent.length-1);
             }
@@ -68,10 +76,8 @@ buttons.forEach((button)=>{
             console.log(a)
             console.log(b);
         }
-        //address overflowing
         if (clicks == 0){
-            //if (display.textContent.length() <= 16)
-            if (isNum(curr) && display.textContent == 0){
+            if (isNum(curr) && (display.textContent == 0 || display.textContent == "NaN")){
                 display.textContent = val;
             }
             else if (isNum(curr) && display.textContent.length <= 17) {
@@ -115,13 +121,14 @@ buttons.forEach((button)=>{
                 display.textContent = val;
                 it++;
                 decimal = false;
+                zerdiv = false;
             }
             else if (it == 1 && isNum(curr) && display.textContent.length <= 17) display.textContent += val;
-            else if (!decimal && val == '.'){
+            else if (!decimal && val == '.' && !zerdiv){
                 display.textContent += '.';
                 decimal = true;
             }
-            else if (val == '*'){
+            else if (val == '*' && !zerdiv){
                 let n = Number(display.textContent);
                 if (ops == "") ops = '*';
                 else if (ops != "" && ops != '*'){
@@ -134,14 +141,13 @@ buttons.forEach((button)=>{
                 }
                 else if (ops != "" && it > 0){
                     b = n;
-                    //console.log(`operate ${a} ${ops} ${b}`);
                     display.textContent = operate(a,'*',b);
                     b = 0;
                     a = Number(display.textContent);
                     it = 0;
                 }
             }
-            else if (val == '+'){ //need to set that eqn only fires when it = 1
+            else if (val == '+' && !zerdiv){ //need to set that eqn only fires when it = 1
                 let n = Number(display.textContent);
                 if (ops == "") ops = '+';
                 else if (ops != "" && ops != '+'){
@@ -154,14 +160,13 @@ buttons.forEach((button)=>{
                 }
                 else if (ops!= "" && it > 0){
                     b = n;
-                    //console.log(`operate ${a} ${ops} ${b}`);
                     display.textContent = operate(a,ops,b);
                     b = 0;
                     a = Number(display.textContent);
                     it = 0;
                 }
             }
-            else if (val == '-'){
+            else if (val == '-' && !zerdiv){
                 let n = Number(display.textContent);
                 if (ops == "") ops = '-';
                 else if (ops != "" && ops != '-'){
@@ -178,10 +183,9 @@ buttons.forEach((button)=>{
                     b = 0;
                     a = Number(display.textContent);
                     it = 0;
-                    console.log("when");
                 }
             }
-            else if (val == '/'){
+            else if (val == '/' && !zerdiv){
                 let n = Number(display.textContent);
                 if (ops == "") ops = '/';
                 else if (ops != "" && ops != '/'){
@@ -194,13 +198,13 @@ buttons.forEach((button)=>{
                 }
                 else if (ops != "" && it > 0){
                     b = n;
+                    it = 0;
                     display.textContent = operate(a,ops,b);
                     b = 0;
                     a = Number(display.textContent);
-                    it = 0;
                 }
             }
-            else if (val == '='){
+            else if (val == '=' && !zerdiv){
                 let n = Number(display.textContent);
                 if (ops != "" && it > 0){
                     b = n;
@@ -213,7 +217,11 @@ buttons.forEach((button)=>{
                 it = 0;
             }
         }
-        //case for clicks == 2
+        if (display.textContent == "NaN"){ 
+            zerdiv = true;
+            clicks--;
+            it = 0; 
+        }
     });
     button.addEventListener("mouseup", ()=>{
         button.classList.remove("clicked");
@@ -234,7 +242,7 @@ clear.addEventListener("mouseup", (e)=>{
 });
 
 del.addEventListener("mousedown", ()=>{
-    del.style.backgroundColor = "purple";
+    del.style.backgroundColor = "black";
 });
 
 del.addEventListener("mouseup", ()=>{
