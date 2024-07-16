@@ -41,19 +41,21 @@ let b;
 let ops;
 let clicks = 0;
 let it = 0;
+let decimal = false;
 buttons.forEach((button)=>{
     let val = button.textContent;
     button.addEventListener("mousedown", (e) =>{
         button.classList.add("clicked");
         let curr = Number(val);
         if (val == "clear"){
-            console.log("I'm FUCKING PISSED");
+            // console.log("I'm FUCKING PISSED");
             display.textContent = 0;
             a = 0;
             b = 0;
             ops = "";
             clicks = 0;
             it = 0;
+            decimal = false;
         }
         //address overflowing
         if (clicks == 0){
@@ -63,6 +65,10 @@ buttons.forEach((button)=>{
             }
             else if (isNum(curr)) {
                 display.textContent += val;
+            }
+            else if (val == '.' && !decimal){
+                display.textContent += '.';
+                decimal = true;
             }
             else if (val == '*'){
                 let n = Number(display.textContent);
