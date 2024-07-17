@@ -37,8 +37,6 @@ function operate(num1, operator, num2){
 }
 
 const buttons = document.querySelectorAll(".button");
-//everytime click button put value on display then store it somewhere so you can use operation func on it, count number of buttons pressed
-//needs to == 3 in order to call operation function, if alr number on view count -= 2;
 const display = document.querySelector("#display");
 let a = 0;
 let b;
@@ -74,14 +72,14 @@ buttons.forEach((button)=>{
             else b = Number(display.textContent);
         }
         if (clicks == 0){
-            if (isNum(curr) && (display.textContent == 0 || display.textContent == "NaN")){
+            if (!decimal && isNum(curr) && (display.textContent == 0 || display.textContent == "NaN")){
                 display.textContent = val;
             }
             else if (isNum(curr) && display.textContent.length <= 17) {
                 display.textContent += val;
             }
             else if (val == '.' && !decimal){
-                display.textContent += '.';
+                display.textContent += val;
                 decimal = true;
             }
             else if (val == '*'){
@@ -116,9 +114,14 @@ buttons.forEach((button)=>{
         else if (clicks == 1){
             if (it == 0 && isNum(curr)){
                 display.textContent = val;
-                it++;
+                if (val != '0') it++;
                 decimal = false;
                 zerdiv = false;
+            }
+            else if (it == 0 && val == '.'){
+                it++;
+                decimal = true;
+                display.textContent += val;
             }
             else if (it == 1 && isNum(curr) && display.textContent.length <= 17) display.textContent += val;
             else if (!decimal && val == '.' && !zerdiv){
