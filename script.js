@@ -47,6 +47,9 @@ let decimal = false;
 let zerdiv = false;
 buttons.forEach((button)=>{
     let val = button.textContent;
+    for (let i = 0; i < display.textContent.length; i++){
+        if (display.textContent[i] == '.') decimal = true;
+    }
     button.addEventListener("mousedown", (e) =>{
         button.classList.add("clicked");
         let curr = Number(val);
