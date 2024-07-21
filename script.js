@@ -45,6 +45,7 @@ let clicks = 0;
 let it = 0;
 let decimal = false;
 let zerdiv = false;
+let its = 0;
 buttons.forEach((button)=>{
     let val = button.textContent;
     button.addEventListener("mousedown", (e) =>{
@@ -57,6 +58,7 @@ buttons.forEach((button)=>{
             ops = "";
             clicks = 0;
             it = 0;
+            its = 0;
             decimal = false;
             console.clear();
         }
@@ -72,8 +74,9 @@ buttons.forEach((button)=>{
             else b = Number(display.textContent);
         }
         if (clicks == 0){
-            if (!decimal && isNum(curr) && (display.textContent == 0 || display.textContent == "NaN")){
+            if (isNum(curr) && its == 0){
                 display.textContent = val;
+                its++;
             }
             else if (isNum(curr) && display.textContent.length <= 17) {
                 display.textContent += val;
@@ -112,17 +115,19 @@ buttons.forEach((button)=>{
             }
         }
         else if (clicks == 1){
+            its = 0;
+            console.log(`${display.textContent} supp ${it}`);
             if (it == 0 && (isNum(curr) || val == '.')){
                 display.textContent = val;
                 if (val != '0') it++;
                 if (val == '.') decimal = true;
                 zerdiv = false;
             }
-            else if (it == 1 && val == '.' && !decimal){
-                it++;
-                decimal = true;
-                display.textContent += val;
-            }
+            // else if (it == 1 && val == '.' && !decimal){
+            //     it++;
+            //     decimal = true;
+            //     display.textContent += '.';
+            // }
             else if (it == 1 && isNum(curr) && display.textContent.length <= 17) display.textContent += val;
             else if (!decimal && val == '.' && !zerdiv){
                 display.textContent += '.';
@@ -143,7 +148,7 @@ buttons.forEach((button)=>{
                     ops = '*';
                     a = Number(display.textContent);
                     b = 0;
-                    it = 0;
+                    clicks--
                 }
                 else if (ops != "" && it > 0){
                     b = n;
@@ -154,7 +159,7 @@ buttons.forEach((button)=>{
                     else decimal = false;
                     b = 0;
                     a = Number(display.textContent);
-                    it = 0;
+                    clicks--;
                 }
             }
             else if (val == '+' && !zerdiv){ //need to set that eqn only fires when it = 1
@@ -170,7 +175,7 @@ buttons.forEach((button)=>{
                     ops = '+';
                     b = 0;
                     a = Number(display.textContent);
-                    it = 0;
+                    clicks--;
                 }
                 else if (ops!= "" && it > 0){
                     b = n;
@@ -200,7 +205,7 @@ buttons.forEach((button)=>{
                     b = 0;
                     a = Number(display.textContent);
                     ops = '-';
-                    it = 0;
+                    clicks--
                 }
                 else if (ops != "" && it > 0){
                     b = n;
@@ -211,7 +216,7 @@ buttons.forEach((button)=>{
                     else decimal = false;
                     b = 0;
                     a = Number(display.textContent);
-                    it = 0;
+                    clicks--;
                 }
             }
             else if (val == '/' && !zerdiv){
@@ -227,7 +232,7 @@ buttons.forEach((button)=>{
                     b = 0;
                     a = Number(display.textContent);
                     ops = '/';
-                    it = 0;
+                    clicks--;
                 }
                 else if (ops != "" && it > 0){
                     b = n;
@@ -239,6 +244,7 @@ buttons.forEach((button)=>{
                     else decimal = false;
                     b = 0;
                     a = Number(display.textContent);
+                    clicks--;
                 }
             }
             else if (val == '=' && !zerdiv){
@@ -255,8 +261,9 @@ buttons.forEach((button)=>{
                     ops = "";
                     a = Number(display.textContent);
                     b = 0;
+                    clicks--;
+                    it = 0;
                 }
-                it = 0;
             }
         }
         if (display.textContent == "NaN"){ 
