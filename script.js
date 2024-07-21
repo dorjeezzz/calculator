@@ -47,9 +47,6 @@ let decimal = false;
 let zerdiv = false;
 buttons.forEach((button)=>{
     let val = button.textContent;
-    for (let i = 0; i < display.textContent.length; i++){
-        if (display.textContent[i] == '.') decimal = true;
-    }
     button.addEventListener("mousedown", (e) =>{
         button.classList.add("clicked");
         let curr = Number(val);
@@ -115,13 +112,13 @@ buttons.forEach((button)=>{
             }
         }
         else if (clicks == 1){
-            if (it == 0 && isNum(curr)){
+            if (it == 0 && (isNum(curr) || val == '.')){
                 display.textContent = val;
                 if (val != '0') it++;
-                decimal = false;
+                if (val == '.') decimal = true;
                 zerdiv = false;
             }
-            else if (it == 0 && val == '.'){
+            else if (it == 1 && val == '.' && !decimal){
                 it++;
                 decimal = true;
                 display.textContent += val;
@@ -139,6 +136,10 @@ buttons.forEach((button)=>{
                 else if (ops != "" && ops != '*'){
                     b = n;
                     display.textContent = operate(a,ops,b);
+                    if (operate(a,ops,b) % 1 != 0){
+                        decimal = true;
+                    }
+                    else decimal = false;
                     ops = '*';
                     a = Number(display.textContent);
                     b = 0;
@@ -147,6 +148,10 @@ buttons.forEach((button)=>{
                 else if (ops != "" && it > 0){
                     b = n;
                     display.textContent = operate(a,'*',b);
+                    if (operate(a,ops,b) % 1 != 0){
+                        decimal = true;
+                    }
+                    else decimal = false;
                     b = 0;
                     a = Number(display.textContent);
                     it = 0;
@@ -158,6 +163,10 @@ buttons.forEach((button)=>{
                 else if (ops != "" && ops != '+'){
                     b = n;
                     display.textContent = operate(a, ops, b);
+                    if (operate(a,ops,b) % 1 != 0){
+                        decimal = true;
+                    }
+                    else decimal = false;
                     ops = '+';
                     b = 0;
                     a = Number(display.textContent);
@@ -169,6 +178,10 @@ buttons.forEach((button)=>{
                     b = 0;
                     a = Number(display.textContent);
                     it = 0;
+                    if (operate(a,ops,b) % 1 != 0){
+                        decimal = true;
+                    }
+                    else decimal = false;
                 }
             }
             else if (val == '-' && !zerdiv){
@@ -180,6 +193,10 @@ buttons.forEach((button)=>{
                 else if (ops != "" && ops != '-'){
                     b = n;
                     display.textContent = operate(a,ops,b);
+                    if (operate(a,ops,b) % 1 != 0){
+                        decimal = true;
+                    }
+                    else decimal = false;
                     b = 0;
                     a = Number(display.textContent);
                     ops = '-';
@@ -188,6 +205,10 @@ buttons.forEach((button)=>{
                 else if (ops != "" && it > 0){
                     b = n;
                     display.textContent = operate(a,ops,b);
+                    if (operate(a,ops,b) % 1 != 0){
+                        decimal = true;
+                    }
+                    else decimal = false;
                     b = 0;
                     a = Number(display.textContent);
                     it = 0;
@@ -199,6 +220,10 @@ buttons.forEach((button)=>{
                 else if (ops != "" && ops != '/'){
                     b = n;
                     display.textContent = operate(a,ops,b);
+                    if (operate(a,ops,b) % 1 != 0){
+                        decimal = true;
+                    }
+                    else decimal = false;
                     b = 0;
                     a = Number(display.textContent);
                     ops = '/';
@@ -208,6 +233,10 @@ buttons.forEach((button)=>{
                     b = n;
                     it = 0;
                     display.textContent = operate(a,ops,b);
+                    if (operate(a,ops,b) % 1 != 0){
+                        decimal = true;
+                    }
+                    else decimal = false;
                     b = 0;
                     a = Number(display.textContent);
                 }
@@ -217,6 +246,11 @@ buttons.forEach((button)=>{
                 if (ops != "" && it > 0){
                     b = n;
                     display.textContent = operate(a,ops,b);
+                    if (operate(a,ops,b) % 1 != 0){
+                        decimal = true;
+                        console.log(decimal);
+                    }
+                    else decimal = false;
                     console.log(`operate ${a} ${ops} ${b}`);
                     ops = "";
                     a = Number(display.textContent);
